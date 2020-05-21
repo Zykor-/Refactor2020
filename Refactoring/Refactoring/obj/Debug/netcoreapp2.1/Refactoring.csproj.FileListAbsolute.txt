@@ -1,0 +1,11 @@
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\obj\Debug\netcoreapp2.1\Refactoring.csproj.CoreCompileInputs.cache
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\obj\Debug\netcoreapp2.1\Refactoring.AssemblyInfoInputs.cache
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\obj\Debug\netcoreapp2.1\Refactoring.AssemblyInfo.cs
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\bin\Debug\netcoreapp2.1\Refactoring.deps.json
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\bin\Debug\netcoreapp2.1\Refactoring.runtimeconfig.json
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\bin\Debug\netcoreapp2.1\Refactoring.runtimeconfig.dev.json
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\bin\Debug\netcoreapp2.1\Refactoring.dll
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\bin\Debug\netcoreapp2.1\Refactoring.pdb
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\obj\Debug\netcoreapp2.1\Refactoring.dll
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\obj\Debug\netcoreapp2.1\Refactoring.pdb
+D:\Source\Repos\Zykor-\Refactor2020\Refactoring\Refactoring\obj\Debug\netcoreapp2.1\Refactoring.csprojAssemblyReference.cache

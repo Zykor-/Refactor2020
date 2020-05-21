@@ -8,10 +8,10 @@ namespace Refactoring
 	{
 		public M_Skeleton() : base("Sargath the Skeleton", 100, 3, .8, .3, 30, 50, 30, 50) { }
 
-		public override void attack(DungeonCharacter opponent)
+		public override void Attack(DC opponent)
 		{
-			Console.WriteLine(name + " slices his rusty blade at " + opponent.getName() + ":");
-			base.attack(opponent);
+			Console.WriteLine(name + " slices his rusty blade at " + opponent.GetName() + ":");
+			base.Attack(opponent);
 		}
 	}
 }

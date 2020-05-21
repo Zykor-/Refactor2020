@@ -9,34 +9,34 @@ namespace Refactoring
 		protected double chanceToHeal;
 		protected int minHeal, maxHeal;
 
-		public DC_Monster(string name, int hitPoints, int attackSpeed, double chanceToHit, double chanceToHeal, int damageMin, int damageMax, int minHeal, int maxHeal)
-			:base(name, hitPoints, attackSpeed, chanceToHit, damageMin, damageMax)
+		public DC_Monster(string name, int hitPoints, int AttackSpeed, double chanceToHit, double chanceToHeal, int damageMin, int damageMax, int minHeal, int maxHeal)
+			:base(name, hitPoints, AttackSpeed, chanceToHit, damageMin, damageMax)
 		{
 			this.chanceToHeal = chanceToHeal;
 			this.maxHeal = maxHeal;
 			this.minHeal = minHeal;
 		}
 
-		public void heal()
+		public void Heal()
 		{
 			bool canHeal;
-			int healPoints;
+			int HealPoints;
 			Random rand = new Random();
 
 			canHeal = (rand.NextDouble() <= chanceToHeal) && (hitPoints > 0);
 
 			if (canHeal)
 			{
-				healPoints = rand.Next(minHeal, maxHeal);
-				addHitPoints(healPoints);
-				Console.WriteLine(name + " healed itself for " + healPoints + " points.\n" + "Total hit points remaining are: " + hitPoints + "\n");
+				HealPoints = rand.Next(minHeal, maxHeal);
+				AddHitPoints(HealPoints);
+				Console.WriteLine(name + " Healed itself for " + HealPoints + " points.\n" + "Total hit points remaining are: " + hitPoints + "\n");
 			}
 		}
 
-		public override void subtractHitPoints(int hitPoints)
+		public override void SubtractHitPoints(int hitPoints)
 		{
-			base.subtractHitPoints(hitPoints);
-			heal();
+			base.SubtractHitPoints(hitPoints);
+			Heal();
 		}
 	}
 }

@@ -8,48 +8,49 @@ namespace Refactoring
 	{
 		public H_Thief() : base("Thief", 75, 6, .8, 20, 40, .5) { }
 
-		public void surpriseAttack(DungeonCharacter opponent)
+		private void SurpriseAttack(DC opponent)
 		{
 			Random rand = new Random();
 			double surprise = rand.NextDouble();
 
 			if (surprise <= .4)
 			{
-				Console.WriteLine("Surprise attack was successful!\n" + name + " gets an additional turn.");
+				Console.WriteLine("Surprise Attack was successful!\n" + name + " Gets an Additional turn.");
 				numTurns++;
-				attack(opponent);
+				Attack(opponent);
 			}
 			else if (surprise >= .9)
 			{
-				Console.WriteLine("Uh oh! " + opponent.getName() + " saw you and" + " blocked your attack!");
+				Console.WriteLine("Uh oh! " + opponent.GetName() + " saw you and" + " blocked your Attack!");
 			}
 			else
-				attack(opponent);
+				Attack(opponent);
 		}
 
-		public override void battleChoices(DungeonCharacter opponent)
+		public override void BattleChoices(DC opponent)
 		{
-			base.battleChoices(opponent);
-			int choice;
+			base.BattleChoices(opponent);
+			String choice;
 
 			do
 			{
 				Console.WriteLine("1. Attack Opponent");
 				Console.WriteLine("2. Surprise Attack");
 				Console.WriteLine("Choose an option: ");
-				choice = Convert.ToInt32(Console.ReadKey());
+                choice = Dungeon.GetInput();
 
 				switch (choice)
 				{
-					case 1:
-						attack(opponent);
+					case "1":
+						Attack(opponent);
 						break;
-					case 2:
-						surpriseAttack(opponent);
+					case "2":
+						SurpriseAttack(opponent);
 						break;
 					default:
 						Console.WriteLine("invalid choice!");
-						break;
+                        numTurns++;
+                        break;
 				}
 
 				numTurns--;

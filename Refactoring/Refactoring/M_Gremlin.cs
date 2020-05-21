@@ -8,10 +8,10 @@ namespace Refactoring
 	{
 		public M_Gremlin() : base("Gnarltooth the Gremlin", 70, 5, .8, .4, 15, 30, 20, 40) { }
 
-		public override void attack(DungeonCharacter opponent)
+		public override void Attack(DC opponent)
 		{
-			Console.WriteLine(name + " jabs his kris at " + opponent.getName() + ":");
-			base.attack(opponent);
+			Console.WriteLine(name + " jabs his kris at " + opponent.GetName() + ":");
+			base.Attack(opponent);
 		}
 	}
 }

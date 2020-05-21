@@ -8,10 +8,10 @@ namespace Refactoring
 	{
 		public M_Ogre() : base("Oscar the Ogre", 200, 2, .6, .1, 30, 50, 30, 50) { }
 
-		public override void attack(DungeonCharacter opponent)
+		public override void Attack(DC opponent)
 		{
-			Console.WriteLine(name + " slowly swings a club toward's " + opponent.getName() + ":");
-			base.attack(opponent);
+			Console.WriteLine(name + " slowly swings a club towards " + opponent.GetName() + ":");
+			base.Attack(opponent);
 		}
 	}
 }

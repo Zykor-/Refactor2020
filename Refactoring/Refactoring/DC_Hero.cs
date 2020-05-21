@@ -9,36 +9,36 @@ namespace Refactoring
 		protected double chanceToBlock;
 		protected int numTurns;
 
-		public DC_Hero(string name, int hitPoints, int attackSpeed, double chanceToHit, int damageMin, int damageMax,  double chanceToBlock) 
-			: base(name, hitPoints, attackSpeed, chanceToHit, damageMin, damageMax)
+		public DC_Hero(string name, int hitPoints, int AttackSpeed, double chanceToHit, int damageMin, int damageMax,  double chanceToBlock) 
+			: base(name, hitPoints, AttackSpeed, chanceToHit, damageMin, damageMax)
 		{
 			this.chanceToBlock = chanceToBlock;
-			readName();
+			ReadName();
 		}
 
-		public void readName()
+		private void ReadName()
 		{
 			Console.WriteLine("Enter character name: ");
 			name = Convert.ToString(Console.ReadLine());
 		}
 
-		public Boolean canDefend()
+		public Boolean CanDefend()
 		{
 			Random rand = new Random();
 			return rand.NextDouble() <= chanceToBlock;
 		}
 
-		public override void subtractHitPoints(int hitPoints)
+		public override void SubtractHitPoints(int hitPoints)
 		{
-			if (canDefend())
-				Console.WriteLine(name + " BLOCKED the attack!");
+			if (CanDefend())
+				Console.WriteLine(name + " BLOCKED the Attack!");
 			else
-				base.subtractHitPoints(hitPoints);
+				base.SubtractHitPoints(hitPoints);
 		}
 
-		public virtual void battleChoices(DungeonCharacter opponent)
+		public override void BattleChoices(DC opponent)
 		{
-			numTurns = attackSpeed / opponent.getAttackSpeed();
+			numTurns = AttackSpeed / opponent.GetAttackSpeed();
 
 			if (numTurns == 0)
 				numTurns++;

@@ -11,52 +11,53 @@ namespace Refactoring
 
 		public H_Sorceress() : base("Sorceress", 75, 5, .7, 25, 50, .3) { }
 
-		public void increaseHitPoints()
+		public void IncreaseHitPoints()
 		{
 			int hPoints;
 			Random rand = new Random();
 
 			hPoints = rand.Next(MIN_ADD, MAX_ADD);
-			addHitPoints(hPoints);
-			Console.WriteLine(name + " added [" + hPoints + "] points.\n" + "Total hit points remaining are: "	+ hitPoints + "\n");
+			AddHitPoints(hPoints);
+			Console.WriteLine(name + " Added [" + hPoints + "] points.\n" + "Total hit points remaining are: "	+ hitPoints + "\n");
 		}
 
-		public override void attack(DungeonCharacter opponent)
+		public override void Attack(DC opponent)
 		{
-			Console.WriteLine(name + " casts a spell of fireball at " + opponent.getName() + ":");
-			base.attack(opponent);
+			Console.WriteLine(name + " casts a spell of fireball at " + opponent.GetName() + ":");
+			base.Attack(opponent);
 		}
 
-		public override void battleChoices(DungeonCharacter opponent)
+		public override void BattleChoices(DC opponent)
 		{
-			base.battleChoices(opponent);
-			int choice;
+			base.BattleChoices(opponent);
+			String choice;
 
 			do
 			{
 				Console.WriteLine("1. Attack Opponent");
 				Console.WriteLine("2. Increase Hit Points");
 				Console.WriteLine("Choose an option: ");
-				choice = Convert.ToInt32(Console.ReadKey());
+				choice = Dungeon.GetInput();
 
 				switch (choice)
 				{
-					case 1:
-						attack(opponent);
+					case "1":
+						Attack(opponent);
 						break;
-					case 2:
-						increaseHitPoints();
+					case "2":
+						IncreaseHitPoints();
 						break;
 					default:
 						Console.WriteLine("invalid choice!");
-						break;
+                        numTurns++;
+                        break;
 				}
 
 				numTurns--;
 				if (numTurns > 0)
 					Console.WriteLine("Number of turns remaining is: " + numTurns);
 
-			} while (numTurns > 0 && hitPoints > 0 && opponent.getHitPoints() > 0);
+			} while (numTurns > 0 && hitPoints > 0 && opponent.GetHitPoints() > 0);
 		}
 	}
 }

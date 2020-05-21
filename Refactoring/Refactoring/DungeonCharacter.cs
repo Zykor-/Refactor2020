@@ -4,41 +4,41 @@ using System.Text;
 
 namespace Refactoring
 {
-	public abstract class DungeonCharacter : IComparable
+	public class DungeonCharacter : DC
 	{
 		protected string name;
 		protected int hitPoints;
-		protected int attackSpeed;
+		protected int AttackSpeed;
 		protected int damageMin;
 		protected int damageMax;
 		protected double chanceToHit;
 
-		public DungeonCharacter(string name, int hitPoints, int attackSpeed, double chanceToHit, int damageMin, int damageMax)
+		public DungeonCharacter(string name, int hitPoints, int AttackSpeed, double chanceToHit, int damageMin, int damageMax)
 		{
 			this.name = name;
 			this.hitPoints = hitPoints;
-			this.attackSpeed = attackSpeed;			
+			this.AttackSpeed = AttackSpeed;			
 			this.damageMin = damageMin;
 			this.damageMax = damageMax;
 			this.chanceToHit = chanceToHit;
 		}
 
-		public string getName()
+		public string GetName()
 		{
 			return name;
 		}
 
-		public int getHitPoints()
+		public int GetHitPoints()
 		{
 			return hitPoints;
 		}
 
-		public int getAttackSpeed()
+		public int GetAttackSpeed()
 		{
-			return attackSpeed;
+			return AttackSpeed;
 		}
 
-		public void addHitPoints(int hitPoints)
+		public void AddHitPoints(int hitPoints)
 		{
 			if (hitPoints <= 0)
 				Console.WriteLine("Hitpoint amount must be positive.");
@@ -49,7 +49,7 @@ namespace Refactoring
 			}
 		}
 
-		public virtual void subtractHitPoints(int hitPoints)
+		public virtual void SubtractHitPoints(int hitPoints)
 		{
 			if (hitPoints < 0)
 				Console.WriteLine("Hitpoint amount must be positive.");
@@ -58,20 +58,26 @@ namespace Refactoring
 				this.hitPoints -= hitPoints;
 				if (this.hitPoints < 0)
 					this.hitPoints = 0;
-				Console.WriteLine(getName() + " hit " + " for <" + hitPoints + "> points damage.");
-				Console.WriteLine(getName() + " now has " + getHitPoints() + " hit points remaining.\n");
+				Console.WriteLine(GetName() + " hit " + " for <" + hitPoints + "> points damage.");
+				Console.WriteLine(GetName() + " now has " + GetHitPoints() + " hit points remaining.\n");
 			}
 
 			if (this.hitPoints == 0)
 				Console.WriteLine(name + " has been killed :-(");
 		}
 
-		public Boolean isAlive()
+		public Boolean IsAlive()
 		{
 			return (hitPoints > 0);
 		}
 
-		public virtual void attack(DungeonCharacter opponent)
+        public virtual void BattleChoices(DC opponent)
+        {
+            //empty function, designed for override
+            return;
+        }
+
+		public virtual void Attack(DC opponent)
 		{
 			bool canAttack;
 			int damage;
@@ -82,17 +88,13 @@ namespace Refactoring
 			if (canAttack)
 			{
 				damage = rand.Next(damageMin, damageMax);
-				opponent.subtractHitPoints(damage);
+				opponent.SubtractHitPoints(damage);
 
 				Console.WriteLine();
 			}
 			else
-				Console.WriteLine(getName() + "'s attack on " + opponent.getName() + " failed!\n");
+				Console.WriteLine(GetName() + "'s Attack on " + opponent.GetName() + " failed!\n");
 		}
 
-		public int CompareTo(object obj)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

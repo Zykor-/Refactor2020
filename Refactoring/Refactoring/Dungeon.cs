@@ -2,29 +2,34 @@
 
 namespace Refactoring
 {
-	/*
+    /*
 	 * ----------------------------------------------
 	 * -----------------REFACTORS--------------------
 	 * ----------------------------------------------
 	 * 
 	 * 1. Removed Excess comments and spaces
 	 * 2. Converted code to C#
-	 * 3. Renamed Classes
+	 * 3. Renamed Classes. C# standard has classes named in capital letters, and interfaces require this.
 	 * 4. Replaced Keyboard.java references with Console.Read* 
 	 * 5. Removed unused Keyboard class
-	 * 6. Added ovveride to DC_Hero subclass method battleChoices so they are actually used
-	 * 7. Added ovveride to DC_Hero subclass method subractHitPoints so they are actually used
-	 * 8. Made DungeonCharacter.attack virtual so it can be overridden by subclasses
+	 * 6. Added override to DC_Hero subclass method BattleChoices so they are actually used
+	 * 7. Added override to DC_Hero subclass method subractHitPoints so they are actually used
+	 * 8. Made DungeonCharacter.Attack virtual so it can be overridden by subclasses
 	 * 9. Removed DC_Hero theHero; declaration in Dungeon.chooseHero() because it is never called.
-	 * 10. Changed public H_Sorceress fields to private
+	 * 10. Changed public Hero fields to private where they did not need to be public
+     * 11. Changed DC_Hero classes accessed from within the class to private
+     * 12. Added Dungeon.GetInput() to simplify getting a string from the user. This comes with the change of most int casts to strings. They were causing all sorts of crashes.
+     * e.g. choice = Convert.ToInt32(Console.ReadLine()); becomes choice = GetInput(); Simple, stable, and implementable across all classes.
+     * 13. Created a Interface DC that is implemented by the base DungeonCharacter class. Changed calling DungeonCharacter to calling DC in all instances. (Programming to interface)
+     * Not really refactoring, but I also changed a few of the menus so that the player never crashes or gets stuck. also, quitting and Y/N are no longer case-sensitive.
 	 */
 
-	public class Dungeon
+    public class Dungeon
 	{
 		public static void Main(string[] args)
 		{
-			DC_Hero theHero;
-			DC_Monster theMonster;
+			DC theHero;
+			DC theMonster;
 
 			do
 			{
@@ -35,84 +40,103 @@ namespace Refactoring
 			} while (playAgain());
 		}
 
-		public static DC_Hero chooseHero()
+		public static DC chooseHero()
 		{
-			int choice;
+            while (true)
+            {
+                String choice;
 
-			Console.WriteLine("Choose a hero:\n" +
-							   "1. Warrior\n" +
-							   "2. Sorceress\n" +
-							   "3. Thief");
+                Console.WriteLine("Choose a hero:\n" +
+                                   "1. Warrior\n" +
+                                   "2. Sorceress\n" +
+                                   "3. Thief");
 
-			choice = Convert.ToInt32(Console.ReadLine());
+                choice = GetInput();
 
-			switch (choice)
-			{
-				case 1: return new H_Warrior();
+                switch (choice)
+                {
+                    case "1": return new H_Warrior(); 
 
-				case 2: return new H_Sorceress();
+                    case "2": return new H_Sorceress(); 
 
-				case 3: return new H_Thief();
+                    case "3": return new H_Thief();
 
-				default:
-					Console.WriteLine("invalid choice, returning Thief");
-					return new H_Thief();
-			}
+                    default:
+                        Console.WriteLine("invalid choice!");
+                        continue;
+                        
+                }
+            }
 		}
 
-		public static DC_Monster generateMonster()
+        public static String GetInput()
+        {
+            return Console.ReadLine();
+        }
+            
+		public static DC generateMonster()
 		{
-			int choice;
-			Random rand = new Random();
+            while (true)
+            {
+                int choice;
+                Random rand = new Random();
 
-			choice = rand.Next(1,3);
+                choice = rand.Next(1, 3);
 
-			switch (choice)
-			{
-				case 1: return new M_Ogre();
+                switch (choice)
+                {
+                    case 1: return new M_Ogre(); 
 
-				case 2: return new M_Gremlin();
+                    case 2: return new M_Gremlin(); 
 
-				case 3: return new M_Skeleton();
+                    case 3: return new M_Skeleton(); 
 
-				default:
-					Console.WriteLine("invalid choice, returning Skeleton");
-					return new M_Skeleton();
-			}
+                    default:
+                        Console.WriteLine("invalid choice!");
+                        continue;
+                }
+            }
 		}
 
 		public static Boolean playAgain()
 		{
-			char again;
+            while (true)
+            {
+                String again;
 
-			Console.WriteLine("Play again (y/n)?");
-			again = Convert.ToChar(Console.ReadLine());
+                Console.WriteLine("Play again (y/n)?");
+                again = GetInput();
+                if (again == "Y" || again == "y")
+                    return true;
+                if (again == "N" || again == "n")
+                    return true;
+                Console.WriteLine("Invalid input!");
 
-			return (again == 'Y' || again == 'y');
+            }
 		}
 
-		public static void battle(DC_Hero theHero, DC_Monster theMonster)
+		public static void battle(DC theHero, DC theMonster)
 		{
-			char pause = 'p';
-			Console.WriteLine(theHero.getName() + " battles " + theMonster.getName());
+			String pause = "p";
+			Console.WriteLine(theHero.GetName() + " battles " + theMonster.GetName());
 			Console.WriteLine("---------------------------------------------");
 
-			while (theHero.isAlive() && theMonster.isAlive() && pause != 'q')
+			while (theHero.IsAlive() && theMonster.IsAlive() && (!(pause == "q" || pause == "Q")))
 			{
-				theHero.battleChoices(theMonster);
+				theHero.BattleChoices(theMonster);
 
-				if (theMonster.isAlive())
-					theMonster.attack(theHero);
+				if (theMonster.IsAlive())
+					theMonster.Attack(theHero);
 
 				Console.WriteLine("\n-->q to quit, anything else to continue: ");
-				pause = Convert.ToChar(Console.ReadLine());
+                pause = GetInput();
 
 			}
 
-			if (!theMonster.isAlive())
-				Console.WriteLine(theHero.getName() + " was victorious!");
-			else if (!theHero.isAlive())
-				Console.WriteLine(theHero.getName() + " was defeated :-(");
+			if (!theMonster.IsAlive())
+				Console.WriteLine(theHero.GetName() + " was victorious!");
+			else if (!theHero.IsAlive())
+				Console.WriteLine(theHero.GetName() + " was defeated :-(");
 			else
 				Console.WriteLine("Quitters never win ;-)");
 		}
