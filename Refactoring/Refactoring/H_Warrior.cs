@@ -30,28 +30,25 @@ namespace Refactoring
 
 		public override void BattleChoices(DC opponent)
 		{
-			String choice;
+			int choice;
 
 			base.BattleChoices(opponent);
 
 			do
 			{
-				Console.WriteLine("1. Attack Opponent");
-				Console.WriteLine("2. Crushing Blow on Opponent");
-				Console.WriteLine("Choose an option: ");
-                choice = Console.ReadLine();
+                DungeonMenu m = new DungeonMenu();
+                m.AddOption("Attack Opponent");
+                m.AddOption("Crushing blow on Opponent");
+                m.DisplayMenu();
+                choice = m.Select();
 
 				switch (choice)
 				{
-					case "1":
+					case 1:
 						Attack(opponent);
 						break;
-					case "2":
+					case 2:
 						CrushingBlow(opponent);
-						break;
-					default:
-						Console.WriteLine("invalid choice!");
-                        numTurns++;
 						break;
 				}
 

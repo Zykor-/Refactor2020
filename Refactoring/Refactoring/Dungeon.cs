@@ -18,9 +18,13 @@ namespace Refactoring
 	 * 9. Removed DC_Hero theHero; declaration in Dungeon.chooseHero() because it is never called.
 	 * 10. Changed public Hero fields to private where they did not need to be public
      * 11. Changed DC_Hero classes accessed from within the class to private
-     * 12. Added Dungeon.GetInput() to simplify getting a string from the user. This comes with the change of most int casts to strings. They were causing all sorts of crashes.
-     * e.g. choice = Convert.ToInt32(Console.ReadLine()); becomes choice = GetInput(); Simple, stable, and implementable across all classes.
+     * 12. Added Dungeon.GetInput() to simplify getting a string from the user. This is used exclusively in the Dungeon class to avoid interdepency.
      * 13. Created a Interface DC that is implemented by the base DungeonCharacter class. Changed calling DungeonCharacter to calling DC in all instances. (Programming to interface)
+     * 14. Created new interface DM meant to manage multiple types of menus. Only one class uses it, but it will be useful if expansion is needed.
+     * 15. Implemented that interface in the new DungeonMenu class, a class which easily creates and displays menus, then gets user input. Significantly cuts down on reused code. 
+     * 16. Removed all the unnecessary switch-case defaults, since the DungeonMenu class automatically senses the upper and lower limits of input and loops back on itself. This eliminates 10 or so lines.
+     * 17. Implemented new class CharacterList, which returns a DC from a static list of heroes and monsters. Eliminates the need for the switch cases in the chooseHero and chooseMonster functions.
+     * 18. Removed while(true) loops made unnecessary by refactors 17, 16, and 15
      * Not really refactoring, but I also changed a few of the menus so that the player never crashes or gets stuck. also, quitting and Y/N are no longer case-sensitive.
 	 */
 
@@ -40,62 +44,37 @@ namespace Refactoring
 			} while (playAgain());
 		}
 
-		public static DC chooseHero()
-		{
-            while (true)
-            {
-                String choice;
-
-                Console.WriteLine("Choose a hero:\n" +
-                                   "1. Warrior\n" +
-                                   "2. Sorceress\n" +
-                                   "3. Thief");
-
-                choice = GetInput();
-
-                switch (choice)
-                {
-                    case "1": return new H_Warrior(); 
-
-                    case "2": return new H_Sorceress(); 
-
-                    case "3": return new H_Thief();
-
-                    default:
-                        Console.WriteLine("invalid choice!");
-                        continue;
-                        
-                }
-            }
-		}
-
         public static String GetInput()
         {
             return Console.ReadLine();
         }
+
+        public static DC chooseHero()
+		{
+            int choice;
+
+            DungeonMenu m = new DungeonMenu();
+
+            m.ChangeHeader("Choose a hero.");
+            m.AddOption("Warrior");
+            m.AddOption("Sorceress");
+            m.AddOption("Thief");
+            m.DisplayMenu();
+
+            choice = m.Select();
+
+            return CharacterList.GetHero(choice);
+		}
+
             
 		public static DC generateMonster()
 		{
-            while (true)
-            {
-                int choice;
-                Random rand = new Random();
+            int choice;
+            Random rand = new Random();
 
-                choice = rand.Next(1, 3);
+            choice = rand.Next(1, 3);
 
-                switch (choice)
-                {
-                    case 1: return new M_Ogre(); 
-
-                    case 2: return new M_Gremlin(); 
-
-                    case 3: return new M_Skeleton(); 
-
-                    default:
-                        Console.WriteLine("invalid choice!");
-                        continue;
-                }
-            }
+            return CharacterList.GetMonster(choice);
 		}
 
 		public static Boolean playAgain()
